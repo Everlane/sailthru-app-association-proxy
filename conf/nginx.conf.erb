@@ -14,11 +14,12 @@ http {
       listen <%= ENV['PORT'] %>;
 
       location /apple-app-site-association {
-      proxy_pass <%= ENV['APP_ASSOCIATION_HOST'] %>;
+          proxy_pass <%= ENV['APP_ASSOCIATION_HOST'] %>;
       }
 
       location / {
           proxy_pass http://cb.sailthru.com;
+          proxy_ssl_session_reuse off;
       }
   }
 }
