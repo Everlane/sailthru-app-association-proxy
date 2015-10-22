@@ -11,7 +11,7 @@ http {
 	client_body_timeout 5;
 
   server {
-      listen <%= ENV['PORT'] %>;
+      listen <%= ENV['PORT'] %> ssl;
 
       location /apple-app-site-association {
           proxy_pass <%= ENV['APP_ASSOCIATION_HOST'] %>;
