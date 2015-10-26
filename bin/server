@@ -1,2 +1,2 @@
-PORT=9000 ruby -rerb -e "puts ERB.new(File.read('conf/nginx.conf.erb')).result" > $(pwd)/conf/nginx.conf
+ruby -rerb -e "puts ERB.new(File.read('conf/nginx.conf.erb')).result" > $(pwd)/conf/nginx.conf
 nginx -c $(pwd)/conf/nginx.conf
