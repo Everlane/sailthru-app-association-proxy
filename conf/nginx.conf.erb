@@ -11,7 +11,13 @@ http {
 	client_body_timeout 5;
 
   server {
-      listen <%= ENV['PORT'] %>;
+      listen 80;
+      listen 443;
+
+      <% (19000..20000).each do |unsubscribe_port| %>
+        listen <%= unsubscribe_port %>;
+      <% end %>
+
       proxy_ssl_session_reuse off;
 
       location /apple-app-site-association {
