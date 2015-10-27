@@ -15,6 +15,15 @@
   }],
   "provisioners": [
     {
+      "type": "shell-local",
+      "command": "ruby -rerb -e \"puts ERB.new(File.read('conf/nginx.conf.erb')).result\" > $(pwd)/conf/nginx.conf nginx -c $(pwd)/conf/nginx.conf"
+    },
+    {
+      "type": "file",
+      "source": "conf/nginx.conf",
+      "destination": "/tmp/nginx.conf"
+    },
+    {
       "type": "file",
       "source": "certs/domain.key",
       "destination": "/tmp/domain.key"
