@@ -1,40 +1,27 @@
-daemon off;
-worker_processes 4;
+server {
+    listen 80;
 
-events {
-	worker_connections 1024;
-}
+    # SSL Configuration
+    listen 443;
+    ssl    on;
+    ssl_certificate    /etc/ssl/domain.pem;
+    ssl_certificate_key    /etc/ssl/domain.key;
 
-http {
-  server_tokens off;
+    <% (19000..20000).each do |unsubscribe_port| %>
+      listen <%= unsubscribe_port %>;
+    <% end %>
 
-	client_body_timeout 5;
+    proxy_ssl_session_reuse off;
 
-  server {
-      listen 80;
+    location /apple-app-site-association {
+        proxy_pass <%= ENV['APP_ASSOCIATION_HOST'] || "https://www.everlane.com" %>;
+    }
 
-      # SSL Configuration
-      listen 443;
-      ssl    on;
-      ssl_certificate    /etc/ssl/your_domain_name.pem;
-      ssl_certificate_key    /etc/ssl/your_domain_name.key;
+    location = / {
+        proxy_pass <%= ENV['APP_ASSOCIATION_HOST'] || "https://www.everlane.com" %>;
+    }
 
-      <% (19000..20000).each do |unsubscribe_port| %>
-        listen <%= unsubscribe_port %>;
-      <% end %>
-
-      proxy_ssl_session_reuse off;
-
-      location /apple-app-site-association {
-          proxy_pass <%= ENV['APP_ASSOCIATION_HOST'] %>;
-      }
-
-      location = / {
-          proxy_pass <%= ENV['APP_ASSOCIATION_HOST'] %>;
-      }
-
-      location / {
-          proxy_pass http://cb.sailthru.com;
-      }
-  }
+    location / {
+        proxy_pass http://cb.sailthru.com;
+    }
 }
