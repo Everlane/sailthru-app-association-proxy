@@ -14,3 +14,7 @@ sudo apt-get install nginx -y
 
 echo "packer: nginx - installing as a service"
 sudo update-rc.d nginx defaults
+
+echo "packer: nginx - Installing config"
+
+echo "packer: nginx - Install SSL Certificate"
