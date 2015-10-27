@@ -12,7 +12,12 @@ http {
 
   server {
       listen 80;
+
+      # SSL Configuration
       listen 443;
+      ssl    on;
+      ssl_certificate    /etc/ssl/your_domain_name.pem;
+      ssl_certificate_key    /etc/ssl/your_domain_name.key;
 
       <% (19000..20000).each do |unsubscribe_port| %>
         listen <%= unsubscribe_port %>;
