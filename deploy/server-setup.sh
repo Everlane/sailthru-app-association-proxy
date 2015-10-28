@@ -17,16 +17,12 @@ sudo update-rc.d nginx defaults
 
 echo "packer: nginx - Installing config"
 sudo mkdir -p /etc/nginx/
-sudo mv /tmp/nginx.conf /etc/nginx/sites-enabled
-#sudo chown $INSTANCE_USER /etc/nginx/
-#sudo chmod -r 755 /etc/nginx/
+sudo mv /tmp/nginx.conf /etc/nginx/nginx.conf
 
 echo "packer: nginx - Install SSL Certificate"
 sudo mkdir -p /etc/ssl/
 sudo mv /tmp/domain.key /etc/ssl/
 sudo mv /tmp/domain.pem /etc/ssl/
-#sudo chown $INSTANCE_USER /etc/ssl/
-#sudo chmod -r 755 /etc/ssl/
 
 echo "packer: reload nginx"
 sudo service nginx reload
