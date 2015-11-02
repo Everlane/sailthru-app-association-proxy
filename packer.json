@@ -11,7 +11,7 @@
     "source_ami": "ami-fb6c1d91",
     "instance_type": "t1.micro",
     "ssh_username": "ubuntu",
-    "ami_name": "packer-example {{timestamp}}"
+    "ami_name": "Sailthru-Proxy {{timestamp}}"
   }],
   "provisioners": [
     {
