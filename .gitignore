@@ -1,1 +1,5 @@
+*.pem
 conf/nginx.conf
+certs/*.pem
+certs/*.key
+certs/*.crt

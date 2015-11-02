@@ -1,24 +1,37 @@
-daemon off;
 worker_processes 4;
 
 events {
-	worker_connections 1024;
+    worker_connections 1024;
 }
 
 http {
   server_tokens off;
-
-	client_body_timeout 5;
-
+  client_body_timeout 5;
   server {
-      listen <%= ENV['PORT'] %>;
+      listen 80 default_server;
+
+      # SSL Configuration
+      listen 443 ssl;
+      ssl_certificate    /etc/ssl/domain.pem;
+      ssl_certificate_key    /etc/ssl/domain.key;
+
+      proxy_ssl_session_reuse off;
 
       location /apple-app-site-association {
-      proxy_pass <%= ENV['APP_ASSOCIATION_HOST'] %>;
+          proxy_pass <%= ENV['APP_ASSOCIATION_HOST'] || "https://www.everlane.com" %>;
+      }
+
+      location /oc {
+        rewrite ^(.*) http://cb.sailthru.com$1 permanent;
+      }
+
+      location = / {
+          proxy_pass <%= ENV['APP_ASSOCIATION_HOST'] || "https://www.everlane.com" %>;
       }
 
       location / {
           proxy_pass http://cb.sailthru.com;
       }
+
   }
 }
