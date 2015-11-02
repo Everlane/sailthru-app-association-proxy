@@ -15,14 +15,14 @@ http {
       ssl_certificate    /etc/ssl/domain.pem;
       ssl_certificate_key    /etc/ssl/domain.key;
 
-      <% (19000..20000).each do |unsubscribe_port| %>
-        listen <%= unsubscribe_port %>;
-      <% end %>
-
       proxy_ssl_session_reuse off;
 
       location /apple-app-site-association {
           proxy_pass <%= ENV['APP_ASSOCIATION_HOST'] || "https://www.everlane.com" %>;
+      }
+
+      location /oc {
+        rewrite ^(.*) http://cb.sailthru.com$1 permanent;
       }
 
       location = / {
@@ -32,5 +32,6 @@ http {
       location / {
           proxy_pass http://cb.sailthru.com;
       }
+
   }
 }
